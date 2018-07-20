@@ -2,7 +2,8 @@ import multiprocessing
 import threading
 from pymongo import MongoClient
 from pymongo.errors import BulkWriteError
-import CommonFunctions
+from commons import CommonFunctions
+
 
 def saveOSMToMongo(rowslist, logger, db_server, db_port, db_database, db_collection, firstInsert=False):
     client = MongoClient(db_server, int(db_port))
@@ -77,7 +78,7 @@ def updateWays(db_server, db_port, db_database, db_collection, logger, element_a
 
         if len(rowslist) == int(element_at_time/10):
             save_packages.append(list(rowslist))
-            CommonFunctions.addLogMessage("Package " + str(len(save_packages)) + " of " + str(number_of_processors)+" prepared", logger, CommonFunctions.INFO_LOG)
+            CommonFunctions.addLogMessage("Package " + str(len(save_packages)) + " of " + str(number_of_processors) + " prepared", logger, CommonFunctions.INFO_LOG)
             if len(save_packages)==number_of_processors:
                 processes = []
                 for save_package in save_packages:
@@ -172,14 +173,14 @@ def updateRelations(db_server, db_port, db_database, db_collection, logger, elem
                             elif child['geometry']['type'] == 'Point':
                                 continue
                             else:
-                                CommonFunctions.addLogMessage("Unknown geometry - "+str(child['geometry'])+": "+str(document), logger, CommonFunctions.INFO_LOG)
+                                CommonFunctions.addLogMessage("Unknown geometry - " + str(child['geometry']) + ": " + str(document), logger, CommonFunctions.INFO_LOG)
                     elif document['type'] == 'building':
                         if child['osm_type'] == 'way':
                             geom['type'] = 'Polygon'
                             geom['coordinates'] = child['geometry']['coordinates']
                     else:
                         if str(document['type'])not in unknown_types:
-                            CommonFunctions.addLogMessage("Unknown type - "+str(document['type']), logger, CommonFunctions.INFO_LOG)
+                            CommonFunctions.addLogMessage("Unknown type - " + str(document['type']), logger, CommonFunctions.INFO_LOG)
                             unknown_types.append(str(document['type']))
                             #CommonFunctions.addLogMessage(str(document['member']), logger, CommonFunctions.INFO_LOG)
                 break
@@ -221,7 +222,7 @@ def updateRelations(db_server, db_port, db_database, db_collection, logger, elem
             rowslist.append(singlerow)
         if len(rowslist) == int(element_at_time/10):
             save_packages.append(list(rowslist))
-            CommonFunctions.addLogMessage("Package " + str(len(save_packages)) + " of " + str(number_of_processors)+" prepared", logger, CommonFunctions.INFO_LOG)
+            CommonFunctions.addLogMessage("Package " + str(len(save_packages)) + " of " + str(number_of_processors) + " prepared", logger, CommonFunctions.INFO_LOG)
             if len(save_packages) == number_of_processors:
                 processes = []
                 for save_package in save_packages:
@@ -270,6 +271,6 @@ def checkGeometry(docsearch, coords_list, geoms_list, logger):
     elif docsearch['geometry']['type'] == 'Point':
         coords_list.append(docsearch['geometry'])
     else:
-        CommonFunctions.addLogMessage("Unknown check geometry - "+str(docsearch['geometry']['type']+": "+str(docsearch)), logger, CommonFunctions.INFO_LOG)
+        CommonFunctions.addLogMessage("Unknown check geometry - " + str(docsearch['geometry']['type'] + ": " + str(docsearch)), logger, CommonFunctions.INFO_LOG)
         CommonFunctions.addLogMessage("Unknown geoms_list - " + str(geoms_list), logger, CommonFunctions.INFO_LOG)
     return coords_list, geoms_list

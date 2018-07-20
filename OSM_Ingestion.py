@@ -6,9 +6,9 @@ import sys
 import threading
 from lxml import etree
 from configparser import ConfigParser
-import CommonFunctions
+from commons import CommonFunctions, OSM_Commons
 from pymongo import MongoClient, GEOSPHERE, ASCENDING
-import OSM_Commons
+
 
 def uncompressFile (file, logger, done_path, db_server, db_port, db_database, db_collection):
     CommonFunctions.addLogMessage('Uncompress file: ' + file, logger, CommonFunctions.INFO_LOG)
@@ -152,7 +152,7 @@ def main():
     collection.create_index([("osm_type", ASCENDING), ("id", ASCENDING)], background=True)
 
     number_of_processors = multiprocessing.cpu_count()
-    CommonFunctions.addLogMessage("Start OSM Ingestion with "+str(number_of_processors)+" processors", logger, CommonFunctions.INFO_LOG)
+    CommonFunctions.addLogMessage("Start OSM Ingestion with " + str(number_of_processors) + " processors", logger, CommonFunctions.INFO_LOG)
 
     #global tp
     #tp = ThreadPool()

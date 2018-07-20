@@ -6,7 +6,7 @@ import sys
 from configparser import ConfigParser
 import arcpy
 from pymongo.errors import BulkWriteError
-import CommonFunctions
+from commons import CommonFunctions
 from pymongo import MongoClient, GEOSPHERE, ASCENDING
 
 def readSingleLayer(collection, singleparams, geometries, dbdestination, all_the_world, to_clip):

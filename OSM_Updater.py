@@ -7,9 +7,8 @@ import threading
 import urllib.request
 from configparser import ConfigParser
 from pymongo import MongoClient, GEOSPHERE, ASCENDING
-import CommonFunctions
+from commons import CommonFunctions, OSM_Commons
 from lxml import etree
-import OSM_Commons
 
 processes = []
 
